@@ -35,11 +35,13 @@ exports.requestHandler = function(request, response) {
   // Adding more logging to your server can be an easy way to get passive
   // debugging help, but you should always be careful about leaving stray
   // console.logs in your code.
-  console.log("Serving request type " + request.method + " for url " + request.url);
+  
+  // console.log("Serving request type " + request.method + " for url " + request.url);
 
   // The outgoing status.
-  var statusCode = 200;
+  var statusCode = response.statusCode;
 
+  var responseData = null;
 
   // See the note below about CORS headers.
   var headers = defaultCorsHeaders;
@@ -55,11 +57,6 @@ exports.requestHandler = function(request, response) {
   // which includes the status and all headers.
   response.writeHead(statusCode, headers);
 
-  // console.log(this)
-  // var results = [];
-  // response.listeners()
-  // response.write('it\'s alive');
-
   // Make sure to always call response.end() - Node may not send
   // anything back to the client until you do. The string you pass to
   // response.end() will be the body of the response - i.e. what shows
@@ -67,24 +64,42 @@ exports.requestHandler = function(request, response) {
   //
   // Calling .end "flushes" the response's internal buffer, forcing
   // node to actually send all the data over to the client.
-  
-  response.end('JSON.stringify(this)');
 
-var obj = {results: []}
+  var obj = {results: []}
+
 
  if(request.method === 'GET') {
     response.writeHead(statusCode, headers);
-    // response.write(obj);
-    response.end(JSON.stringify(obj));
+    // console.log('request: ', request.body)
+    responseData = JSON.stringify(obj);
+
   }
+
+  // if (request.method === 'GET') {
+  //   response.writeHead(404, headers);
+  //   response.write(notFound);
+  //   response.end();
+  // }
 
  if(request.method === 'POST') {
-    var statusCode = 201;
-    response.writeHead(statusCode, headers);
+    // console.log('requestBody: ', request.body);
+    request.on('data', function (chunk) {
+      console.log('chunk: ', chunk);
+    })
 
-    response.end(JSON.stringify(obj));
+    response.writeHead(response.statusCode, headers);
+    responseData = JSON.stringify(obj);
+  }
+  
+  if (request.method === 'POST') {
+    response.writeHead(201, headers)
+    response.write('notFound');
+    response.end();
   }
 
+
+
+  response.end(responseData);
 
 };
 
