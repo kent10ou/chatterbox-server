@@ -26,10 +26,6 @@ exports.requestHandler = function(request, response) {
   // Documentation for both request and response can be found in the HTTP section at
   // http://nodejs.org/documentation/api/
 
-  // console.log('request.method HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH: ', request.method);
-
-  // console.log('response: ', response);
-
   // Do some basic logging.
   //
   // Adding more logging to your server can be an easy way to get passive
@@ -57,6 +53,7 @@ exports.requestHandler = function(request, response) {
   // which includes the status and all headers.
   response.writeHead(statusCode, headers);
 
+
   // Make sure to always call response.end() - Node may not send
   // anything back to the client until you do. The string you pass to
   // response.end() will be the body of the response - i.e. what shows
@@ -65,57 +62,41 @@ exports.requestHandler = function(request, response) {
   // Calling .end "flushes" the response's internal buffer, forcing
   // node to actually send all the data over to the client.
 
-  var obj = {results: []}
-
-
+  //REQUEST === GET
  if(request.method === 'GET') {
-    response.writeHead(statusCode, headers);
-    // console.log('request: ', request.body)
-    responseData = JSON.stringify(obj);
+    request.on('data', function (chunk) {
+    })
 
 
-  response.end(responseData);
+    request.results = [];
+    response.writeHead(200, headers);
+    responseData = JSON.stringify(request);
+    
   }
 
-  // if (request.method === 'GET') {
-  //   response.writeHead(404, headers);
-  //   response.write(notFound);
-  //   response.end();
-  // }
 
-// if request is a POST
+//REQUEST === POST
   if(request.method === 'POST') {
   // take in new data
     //compile data
+    var obj = {results: []}
     request.on('data', function (chunk) {
-      console.log('chunk: ', chunk.toString());
+      obj.results.push(chunk)
     })
+
     //once data is finished compiling, end it
+    
     request.on('end', function () {
-
-    response.end()
     })
-  // send it back to client, after data is compiled 
-
-
-    // console.log('requestBody: ', request.body);
-
     response.writeHead(201, headers);
-
+    
+    responseData = 'post received';
+    // send it back to client, after data is compiled 
   }
-  
-  // if (request.method === 'POST') {
-  //   response.writeHead(201, headers)
-  //   // console.log('responseCode: ', )
-  //   response.write('notFound');
-  //   response.end();
-  // }
 
-
-
-  
-
+  response.end(responseData);
 };
+
 
 
 // These headers will allow Cross-Origin Resource Sharing (CORS).
