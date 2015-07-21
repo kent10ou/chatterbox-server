@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>chatterbox</title>
+    <link rel="stylesheet" href="styles/styles.css">
+
+    <!-- dependencies -->
+    <script src="bower_components/jquery/jquery.min.js"></script>
+    <script src="bower_components/underscore/underscore-min.js"></script>
+    <!-- your scripts -->
+    <script src="env/config.js"></script>
+    <script src="scripts/app.js"></script>
+  </head>
+  <body>
+    <div id="refresh">WE'RE AWESOME</div> <!-- this is the refresh button -->
+
+    <!-- this is the form to submit a new meaage -->
+    <form action="#" id="send" method="post">
+      <input type="text" placeholder="WHO YOU IS?" name="username" id="username"/>
+      <input type="text" placeholder="WHAT YOU SAY?" name="message" id="message"/>
+      <input type="text" placeholder="WHERE YOU AT?" name="roomname" id="roomname"/>
+      <input type="submit" name="submit" class="submit"/>
+    </form>
+
+    <div id="main"> 
+
+    </div>
+  </body>
+</html>
