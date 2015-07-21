@@ -26,6 +26,10 @@ exports.requestHandler = function(request, response) {
   // Documentation for both request and response can be found in the HTTP section at
   // http://nodejs.org/documentation/api/
 
+  // console.log('request.method HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH: ', request.method);
+
+  // console.log('response: ', response);
+
   // Do some basic logging.
   //
   // Adding more logging to your server can be an easy way to get passive
@@ -36,8 +40,10 @@ exports.requestHandler = function(request, response) {
   // The outgoing status.
   var statusCode = 200;
 
+
   // See the note below about CORS headers.
   var headers = defaultCorsHeaders;
+
 
   // Tell the client we are sending them plain text.
   //
@@ -49,9 +55,11 @@ exports.requestHandler = function(request, response) {
   // which includes the status and all headers.
   response.writeHead(statusCode, headers);
 
-
+  // console.log(this)
+  // var results = [];
   // response.listeners()
   // response.write('it\'s alive');
+
   // Make sure to always call response.end() - Node may not send
   // anything back to the client until you do. The string you pass to
   // response.end() will be the body of the response - i.e. what shows
@@ -60,8 +68,22 @@ exports.requestHandler = function(request, response) {
   // Calling .end "flushes" the response's internal buffer, forcing
   // node to actually send all the data over to the client.
   
-  response.end("Hello, World!");
+  response.end('JSON.stringify(this)');
 
+var obj = {results: []}
+
+ if(request.method === 'GET') {
+    response.writeHead(statusCode, headers);
+    // response.write(obj);
+    response.end(JSON.stringify(obj));
+  }
+
+ if(request.method === 'POST') {
+    var statusCode = 201;
+    response.writeHead(statusCode, headers);
+
+    response.end(JSON.stringify(obj));
+  }
 
 
 };
