@@ -73,6 +73,8 @@ exports.requestHandler = function(request, response) {
     // console.log('request: ', request.body)
     responseData = JSON.stringify(obj);
 
+
+  response.end(responseData);
   }
 
   // if (request.method === 'GET') {
@@ -81,25 +83,37 @@ exports.requestHandler = function(request, response) {
   //   response.end();
   // }
 
- if(request.method === 'POST') {
-    // console.log('requestBody: ', request.body);
+// if request is a POST
+  if(request.method === 'POST') {
+  // take in new data
+    //compile data
     request.on('data', function (chunk) {
-      console.log('chunk: ', chunk);
+      console.log('chunk: ', chunk.toString());
     })
+    //once data is finished compiling, end it
+    request.on('end', function () {
 
-    response.writeHead(response.statusCode, headers);
-    responseData = JSON.stringify(obj);
+    response.end()
+    })
+  // send it back to client, after data is compiled 
+
+
+    // console.log('requestBody: ', request.body);
+
+    response.writeHead(201, headers);
+
   }
   
-  if (request.method === 'POST') {
-    response.writeHead(201, headers)
-    response.write('notFound');
-    response.end();
-  }
+  // if (request.method === 'POST') {
+  //   response.writeHead(201, headers)
+  //   // console.log('responseCode: ', )
+  //   response.write('notFound');
+  //   response.end();
+  // }
 
 
 
-  response.end(responseData);
+  
 
 };
 
