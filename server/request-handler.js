@@ -43,7 +43,7 @@ exports.requestHandler = function(request, response) {
     })
   }
 
-  //REQUEST === GET
+//REQUEST === GET
  if(request.method === 'GET') {
     sendResponse(response, {results: messages});
   }
